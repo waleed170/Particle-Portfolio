@@ -2,14 +2,12 @@
 const themeToggle = document.getElementById('theme-toggle');
 const body = document.body;
 
-// Check localStorage for theme preference
 const savedTheme = localStorage.getItem('theme');
 if (savedTheme === 'dark') {
   body.classList.add('dark-mode');
   themeToggle.textContent = '☀️';
 }
 
-// Toggle dark mode
 themeToggle.addEventListener('click', () => {
   body.classList.toggle('dark-mode');
   const isDarkMode = body.classList.contains('dark-mode');
@@ -30,8 +28,8 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 const particlesArray = [];
-const numberOfParticles = 50; // Reduced for performance
-const connectionDistance = 100; // Distance at which particles connect
+const numberOfParticles = 50;
+const connectionDistance = 100;
 
 class Particle {
   constructor() {
@@ -46,7 +44,6 @@ class Particle {
     this.x += this.speedX;
     this.y += this.speedY;
 
-    // Bounce off edges
     if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
     if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
   }
@@ -87,13 +84,11 @@ function connectParticles() {
 function animateParticles() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Draw particles
   for (let i = 0; i < particlesArray.length; i++) {
     particlesArray[i].update();
     particlesArray[i].draw();
   }
 
-  // Draw connecting lines
   connectParticles();
 
   requestAnimationFrame(animateParticles);
@@ -102,7 +97,6 @@ function animateParticles() {
 initParticles();
 animateParticles();
 
-// Resize canvas on window resize
 window.addEventListener('resize', () => {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
@@ -122,3 +116,42 @@ window.addEventListener('scroll', () => {
 backToTopButton.addEventListener('click', () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
+
+// Project carousel functionality
+const projectsGrid = document.querySelector('.projects-grid');
+const leftArrow = document.querySelector('.left-arrow');
+const rightArrow = document.querySelector('.right-arrow');
+
+function updateArrowVisibility() {
+  if (projectsGrid.scrollLeft <= 0) {
+    leftArrow.classList.add('hidden');
+  } else {
+    leftArrow.classList.remove('hidden');
+  }
+
+  if (projectsGrid.scrollLeft >= projectsGrid.scrollWidth - projectsGrid.clientWidth - 1) {
+    rightArrow.classList.add('hidden');
+  } else {
+    rightArrow.classList.remove('hidden');
+  }
+}
+
+updateArrowVisibility();
+
+projectsGrid.addEventListener('scroll', updateArrowVisibility);
+
+leftArrow.addEventListener('click', () => {
+  projectsGrid.scrollBy({
+    left: -500,
+    behavior: 'smooth'
+  });
+});
+
+rightArrow.addEventListener('click', () => {
+  projectsGrid.scrollBy({
+    left: 500,
+    behavior: 'smooth'
+  });
+});
+
+window.addEventListener('resize', updateArrowVisibility);
