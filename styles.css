@@ -16,9 +16,9 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -1; /* Place it behind other content */
-  pointer-events: none; /* Ensure it doesn't interfere with clicks */
-  background: #f4f4f9; /* Fallback background */
+  z-index: -1;
+  pointer-events: none;
+  background: #f4f4f9;
 }
 
 .container {
@@ -120,18 +120,71 @@ h2 {
 }
 
 /* Projects Section */
+.projects-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
   gap: 20px;
+  padding: 10px 0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.projects-grid::-webkit-scrollbar {
+  display: none;
 }
 
 .project {
+  min-width: 250px;
+  max-width: 500px;
   background: white;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s, color 0.3s;
+  flex: 0 0 auto;
+}
+
+.scroll-arrow {
+  background: #138d75;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.8;
+  transition: opacity 0.3s;
+  z-index: 1;
+}
+
+.scroll-arrow:hover {
+  opacity: 1;
+}
+
+.left-arrow {
+  position: absolute;
+  left: -20px;
+}
+
+.right-arrow {
+  position: absolute;
+  right: -20px;
+}
+
+.scroll-arrow.hidden {
+  display: none;
 }
 
 /* Certifications Section */
@@ -234,7 +287,12 @@ body.dark-mode footer {
 }
 
 body.dark-mode #particle-canvas {
-  background: #121212; /* Fallback background for dark mode */
+  background: #121212;
+}
+
+body.dark-mode .scroll-arrow {
+  background: #1e1e1e;
+  color: #e0e0e0;
 }
 
 /* Back to Top Button */
@@ -267,8 +325,15 @@ body.dark-mode #particle-canvas {
 
   .skills-grid,
   .experience-grid,
-  .projects-grid,
   .certifications-grid {
     grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
+  }
+
+  .left-arrow {
+    left: 0;
+  }
+
+  .right-arrow {
+    right: 0;
   }
 }
